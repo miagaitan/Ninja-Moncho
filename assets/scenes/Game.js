@@ -29,6 +29,8 @@ export default class Game extends Phaser.Scene{
         this.load.image(TRIANGLE, "./assets/images/Triangle.png");
         this.load.image("moon", "./assets/images/moon4.png");
         this.load.image(CIRCLE, "./assets/images/circle.png");
+        this.load.image("win", "./assets/images/win.png");
+        this.load.image("Retry", "./assets/images/keyR");
 
 
     }
@@ -134,7 +136,6 @@ export default class Game extends Phaser.Scene{
         console.log(this.shapesRecolected);
 
     }
-
 
 }
 
