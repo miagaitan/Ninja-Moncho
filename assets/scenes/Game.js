@@ -101,7 +101,7 @@ export default class Game extends Phaser.Scene {
       fill: "#ffffff",
     });
 
-    this.timer= 10
+    this.timer= 25
     this.timerText = this.add.text(750, 20, this.timer, {
       fontSize: "32px",
       fontStyle: "bold",
@@ -139,7 +139,6 @@ export default class Game extends Phaser.Scene {
       DIAMOND,
       SQUARE,
       TRIANGLE,
-      CIRCLE,
     ]);
 
     //get random position x

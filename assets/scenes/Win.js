@@ -4,11 +4,11 @@ export default class Win extends Phaser.Scene {
     }
 
 preload() {
-    this.load.image("Goku", "./assets/images/goku.png")
+    this.load.image("Win", "./assets/images/win.png")
 }
 create() {
-    this.add.image(400,300, "Goku")
-    .setScale(1)
+    this.add.image(400,300, "Win")
+    .setScale(0.5)
     .setInteractive()
     .on("pointerdown",()=> this.scene.start("Game"));;
 }

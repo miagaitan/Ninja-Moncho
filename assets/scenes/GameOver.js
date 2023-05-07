@@ -4,11 +4,11 @@ export default class GameOver extends Phaser.Scene {
     }
 
 preload() {
-    this.load.image("vegeta", "./assets/images/vegeta.jpg")
+    this.load.image("KeyR", "./assets/images/keyR.png")
 }
 create() {
-    this.add.image(400,300, "vegeta")
-    .setScale(1)
+    this.add.image(400,300, "KeyR")
+    .setScale(0.5)
     .setInteractive()
     .on("pointerdown", () => this.scene.start("Game"));
     }
