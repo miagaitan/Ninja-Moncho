@@ -1,7 +1,5 @@
 import { SHAPES, POINTS_PERCENTAGE, POINTS_PERCENTAGE_VALUE_START } from "../../utils.js";
-
 const { TRIANGLE, SQUARE, DIAMOND, CIRCLE } = SHAPES;
-
 
 export default class Game extends Phaser.Scene {
   score;
@@ -43,7 +41,7 @@ export default class Game extends Phaser.Scene {
     platforms.create(400, 568, "ground").setScale(2).refreshBody();
     platforms.create(25, 300, "ground").setScale(1).refreshBody();
     platforms.create(800, 300, "ground").setScale(1).refreshBody();
-    //
+    // add shapes group
     this.shapesGroup = this.physics.add.group();
     // this.shapesGroup.create(100, 0, 'diamond');
     // this.shapesGroup.create(200, 0, 'triangle');
@@ -88,7 +86,7 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.overlap(
     this.shapesGroup,
-    this.platforms,
+    platforms,
     this.reduce, 
     null,
     this
@@ -102,7 +100,7 @@ export default class Game extends Phaser.Scene {
       fill: "#ffffff",
     });
 
-    this.timer= 25
+    this.timer= 30
     this.timerText = this.add.text(750, 20, this.timer, {
       fontSize: "32px",
       fontStyle: "bold",
@@ -111,13 +109,13 @@ export default class Game extends Phaser.Scene {
   }
 
   update() {
+    // the player has won the game
     if (this.score>100) {
       this.scene.start("Win")
     }
-
+// the player has lost the game 
     if(this.gameOver){
       this.scene.start("GameOver");
-
     }
     //movement player
     if (this.cursors.left.isDown) {
@@ -140,29 +138,35 @@ export default class Game extends Phaser.Scene {
       DIAMOND,
       SQUARE,
       TRIANGLE,
+      CIRCLE,
     ]);
 
     //get random position x
     const randomX = Phaser.Math.RND.between(0, 800);
 
-    
-
     //add shape to screen
-    this.shapesGroup.create(randomX, 0, randomShape).setCircle(25, 7, 7).setBounce(0,1);
+    this.shapesGroup.create(randomX, 0, randomShape)
+    .setCircle(32, 0, 0)
+    .setBounce(0.8)
+    .setData(POINTS_PERCENTAGE, POINTS_PERCENTAGE_VALUE_START);
     console.log("shape is added", randomX, randomShape);
   }
 
   collectShape(player, shape) {
-    shape.destroy();
+    shape.disableBody(true,true);
 
     const shapeName = shape.texture.key;
+    const percentage = shape.getData(POINTS_PERCENTAGE);
+    const scoreNow = this.shapesRecolected[shapeName].score * percentage;
+    this.score += scoreNow;
+    this.scoreText.setText(`Score: ${this.score.toString()}`);
     this.shapesRecolected[shapeName].count++;
 
-    this.score += this.shapesRecolected[shapeName].score;
-    console.log(this.shapesRecolected[shapeName].score);
-    this.scoreText.setText(`Score: ${this.score.toString()}`);
+    // this.score += this.shapesRecolected[shapeName].score;
+    // console.log(this.shapesRecolected[shapeName].score);
+    
 
-    console.log(this.shapesRecolected);
+    //console.log(this.shapesRecolected);
   }
 
   onSecond(){
@@ -172,7 +176,23 @@ export default class Game extends Phaser.Scene {
       this.gameOver =true;
     }
   }
-  reduce(){
-
+  reduce(shape, platforms){ 
+    const newPercentage = shape.getData(POINTS_PERCENTAGE) - 0.25;
+    console.log(shape.texture.key, newPercentage);
+    shape.setData(POINTS_PERCENTAGE, newPercentage);
+    if (newPercentage <= 0) {
+      shape.disableBody(true, true);
+      return;
+    }
+// show text
+const text = 
+this.add.text(shape.body.position.x+10, shape.body.position.y, "- 25%", {
+  fontSize: "22px",
+  fontStyle: "bold",
+  fill: "red", 
+});
+setTimeout(() => {
+  text.destroy();
+}, 200);
   }
 }
