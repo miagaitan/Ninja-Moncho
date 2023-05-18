@@ -1,6 +1,7 @@
-import { SHAPES } from "../../utils.js";
+import { SHAPES, POINTS_PERCENTAGE, POINTS_PERCENTAGE_VALUE_START } from "../../utils.js";
 
 const { TRIANGLE, SQUARE, DIAMOND, CIRCLE } = SHAPES;
+
 
 export default class Game extends Phaser.Scene {
   score;
