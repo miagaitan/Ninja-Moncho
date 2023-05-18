@@ -110,7 +110,7 @@ export default class Game extends Phaser.Scene {
 
   update() {
     // the player has won the game
-    if (this.score>100) {
+    if (this.score>=100) {
       this.scene.start("Win")
     }
 // the player has lost the game 
